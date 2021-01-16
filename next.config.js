@@ -1,3 +1,5 @@
+const isProd = process.env.NODE_ENV === "production";
+
 module.exports = {
   target: "serverless",
   webpack: function (config) {
@@ -5,4 +7,7 @@ module.exports = {
     config.module.rules.push({ test: /\.yaml$/, use: "raw-loader" });
     return config;
   },
+  assetPrefix: isProd
+    ? "https://cdn.statically.io/gh/NosearY/noseary.github.io.github.io/gh-pages/"
+    : "",
 };
