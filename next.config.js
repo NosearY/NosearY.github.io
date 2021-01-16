@@ -8,6 +8,6 @@ module.exports = {
     return config;
   },
   assetPrefix: isProd
-    ? "https://cdn.statically.io/gh/NosearY/noseary.github.io.github.io/gh-pages/"
+    ? "https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/"
     : "",
 };
