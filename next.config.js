@@ -7,7 +7,7 @@ module.exports = {
     config.module.rules.push({ test: /\.yaml$/, use: "raw-loader" });
     return config;
   },
-  assetPrefix: isProd
-    ? "https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/"
-    : "",
+  // assetPrefix: isProd
+  //   ? "https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/"
+  //   : "",
 };
