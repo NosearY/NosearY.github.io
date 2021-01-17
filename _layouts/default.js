@@ -13,6 +13,14 @@ export default function DefaultLayout(props) {
       <Header isHome={props.isHome} />
       <div className={styles.container}>{props.children}</div>
       <Footer />
+      <style jsx>
+        {`
+          main {
+            max-width: 1024px;
+            margin: 0 auto;
+          }
+        `}
+      </style>
     </main>
   );
 }

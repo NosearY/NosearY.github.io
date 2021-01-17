@@ -9,11 +9,18 @@ export default function PostLayout(props) {
         <title>{props.title}</title>
       </Head>
       <article>
+        <div>
+          <Link href="/">
+            <a>Back to Home</a>
+          </Link>
+        </div>
         <h1>{props.title}</h1>
+        <pre>{props.date}</pre>
+        <hr></hr>
         <div dangerouslySetInnerHTML={{ __html: props.content }} />
         <div>
           <Link href="/">
-            <a>Home</a>
+            <a>Back to Home</a>
           </Link>
         </div>
       </article>

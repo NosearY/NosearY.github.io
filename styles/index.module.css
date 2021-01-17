@@ -1,14 +1,17 @@
 li.li_container {
   display: flex;
   margin-bottom: 1em;
+  align-items: center;
 }
 
 .post_title {
-  flex-basis: 75%;
+  flex-basis: 85%;
 }
 .date_label {
-  flex-basis: 25%;
+  color: dimgrey;
+  flex-basis: 15%;
   font-size: 0.8em;
+  max-height: 2em;
   border: 1px solid #0070f3;
   border-radius: 4px;
   margin-right: 2em;

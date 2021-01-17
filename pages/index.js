@@ -9,6 +9,7 @@ export default function Blog(props) {
     <DefaultLayout
       title={props.title}
       description={props.description}
+      date={props.date}
       isHome={true}
     >
       <p>文章:</p>

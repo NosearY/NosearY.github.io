@@ -2,10 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 3em 0;
-    background: aliceblue;
+    padding: 2rem;
 }
-
 
 .headerImage {
     width: 6rem;
@@ -20,3 +18,42 @@
 .backToHome {
     margin: 3rem 0 0;
 }
+
+.octo_arm {
+    transform-origin: 130px 106px;
+}
+.github_corner:hover .octo_arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+  @keyframes octocat-wave {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+    20%,
+    60% {
+      transform: rotate(-25deg);
+    }
+    40%,
+    80% {
+      transform: rotate(10deg);
+    }
+  }
+  @media (max-width: 500px) {
+    .github-corner:hover .octo_arm {
+      animation: none;
+      -webkit-animation: none;
+}
+    .github-corner .octo_arm {
+      animation: octocat-wave 560ms ease-in-out;
+      -webkit-animation: octocat-wave 560ms ease-in-out;
+}
+  }
+
+  .svg {
+    fill:#000000; 
+    color:#fff; 
+    position: absolute; 
+    top: 0; 
+    transform: translateX(500%);
+  }

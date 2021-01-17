@@ -25,6 +25,7 @@ export async function getPostBySlug(slug) {
   return {
     title: meta.data.title,
     content: content,
+    date: meta.data.date,
   };
 }
 
