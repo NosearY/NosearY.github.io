@@ -2,6 +2,7 @@ import Head from "next/head";
 import Header from "@includes/header";
 import Footer from "@includes/footer";
 import styles from "./default.module.css";
+import { BlogMeta } from "pages";
 
 export default function DefaultLayout(props) {
   return (

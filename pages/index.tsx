@@ -1,10 +1,19 @@
+import { AllPost, getAllPosts, getConfig } from "@api";
 import DefaultLayout from "@layouts/default";
+import { GetStaticProps } from "next";
 import Link from "next/link";
-import { getConfig, getAllPosts } from "@api";
+import React from "react";
 import styles from "../styles/index.module.css";
 import utilStyles from "../styles/utils.module.css";
 
-export default function Blog(props) {
+export type BlogMeta = {
+  posts: AllPost[];
+  title: string;
+  description: string;
+  date: string;
+};
+
+export default function Blog(props: BlogMeta): any {
   return (
     <DefaultLayout
       title={props.title}
@@ -12,10 +21,10 @@ export default function Blog(props) {
       date={props.date}
       isHome={true}
     >
-      <p>文章:</p>
+      <p>文章: </p>
       <hr></hr>
       <ul>
-        {props.posts.map(function (post, idx) {
+        {props.posts.map((post, idx) => {
           return (
             <li key={idx} className={styles.li_container}>
               <div className={[styles.date_label, utilStyles.flex1].join(" ")}>
@@ -30,16 +39,18 @@ export default function Blog(props) {
           );
         })}
       </ul>
-      <style jsx>{`
-        ul {
-          list-style-type: none;
-        }
-      `}</style>
+      <style jsx>
+        {`
+          ul {
+            list-style-type: none;
+          }
+        `}
+      </style>
     </DefaultLayout>
   );
 }
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps<BlogMeta> = async () => {
   const config = await getConfig();
   const allPosts = await getAllPosts();
   return {
@@ -47,6 +58,7 @@ export async function getStaticProps() {
       posts: allPosts,
       title: config.title,
       description: config.description,
+      date: new Date().toISOString(),
     },
   };
-}
+};
