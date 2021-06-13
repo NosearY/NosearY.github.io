@@ -1,5 +1,5 @@
 import styles from "./header.module.css";
-import utilStyles from "../styles/utils.module.css";
+import utilStyles from "src/styles/utils.module.css";
 
 const name = "Nosear Yuan";
 const bio = "随便聊聊，想到什么写什么";

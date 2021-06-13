@@ -1,6 +1,7 @@
-import DefaultLayout from "@layouts/default";
 import Head from "next/head";
 import Link from "next/link";
+import React from "react";
+import DefaultLayout from "./default";
 
 export default function PostLayout(props) {
   return (

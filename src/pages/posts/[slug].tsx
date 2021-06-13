@@ -1,6 +1,6 @@
 import PostLayout from "@layouts/post";
 import { getPostBySlug, getAllPosts } from "@api";
-import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
+import { GetStaticProps, GetStaticPaths } from "next";
 
 export default function Post(props) {
   return (

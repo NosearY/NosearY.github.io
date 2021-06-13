@@ -3,8 +3,8 @@ import DefaultLayout from "@layouts/default";
 import { GetStaticProps } from "next";
 import Link from "next/link";
 import React from "react";
-import styles from "../styles/index.module.css";
-import utilStyles from "../styles/utils.module.css";
+import styles from "src/styles/index.module.css";
+import utilStyles from "src/styles/utils.module.css";
 
 export type BlogMeta = {
   posts: AllPost[];
