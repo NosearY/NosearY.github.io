@@ -1,0 +1,106 @@
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width"/><meta charSet="utf-8"/><meta name="description"/><title>期权的玩法</title><meta name="next-head-count" content="4"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/css/751fc4bafb638c0ecaed.css" as="style"/><link rel="stylesheet" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/css/751fc4bafb638c0ecaed.css" data-n-g=""/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/css/7376024e78a64674fecc.css" as="style"/><link rel="stylesheet" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/css/7376024e78a64674fecc.css" data-n-p=""/><noscript data-n-css=""></noscript><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/main-ae4733327bd95c4ac325.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/webpack-50bee04d1dc61f8adf5b.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/framework.9d524150d48315f49e80.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/commons.9528123feb626448eb3f.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/pages/_app-a0dd4486b5da7e90db1c.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/2c3b9bffc7150b37a7b3810dfcf1c0b0fac2bd18.bb41be078f1a1a8597d6.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/pages/posts/%5Bslug%5D-03cd88347e80ee377f49.js" as="script"/></head><body><div id="__next"><main class="contaienr mx-auto max-w-screen-lg"><header class=""></header><div><div><div class="text-blue-500 my-2 hover:text-blue-900 underline"><a href="/">Back to Home</a></div><div class="flex flex-row justify-left items-center border-b-2 py-4 border-gray-400"><h1 class="text-4xl">期权的玩法</h1><div class="flex-grow"></div><p class="text-white bg-blue-500 text-xs rounded-full py-2 px-4">2020/01/22</p></div></div><article class="prose sm:prose-sm max-w-none"><div><h2 id="前言">前言</h2>
+<p>去年开始接触炒股，期中偶尔有闻，如果正股买卖是投资界的锤子，那期权就是一套完整的工具箱。
+所以抱着学习以及增强FQ（Financial Quotient）的心态，学习了一下什么是期权。这是一篇自己的学习心得以及理解。</p>
+<h2 id="正股的玩法">正股的玩法</h2>
+<p>一般我们知道，股票赚钱的方式有两种，做多<code>Long</code> 以及做空 <code>Short</code>。 做多好理解，就是低买高卖赚差价，那么做空呢？做空则是反过来，股价高的时候，借别人的持股卖出，过一段时间再赎回来还给人家，这个过程中如果股价下跌了，我们同样可以高卖低买赚取差价（当然要借的东西得支付一些利息，不在此文讨论范围内，略過不表）。</p>
+<h2 id="期权option的玩法">期权(Option)的玩法</h2>
+<p>而期权则是可以简单粗暴的理解成利用正股价格未来的波动来和别人对赌的一个过程。</p>
+<p>具体定义：卖方以一定<code>权利金</code>出售一张合约，让买方可以在<code>行权日</code>以<code>行权价</code>出售或买入该正股的股票。</p>
+<p>这个过程中，如果我们是期权的买入方，那就是<code>Long</code>，如果卖出方就是<code>Short</code>，他们是动词。如果该期权是看涨则是<code>Call</code>, 看跌则是<code>Put</code>。有以下关系：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Long</th>
+<th>Short</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Call</td>
+<td>买入看涨期权</td>
+<td>卖出看涨期权</td>
+</tr>
+<tr>
+<td>Put</td>
+<td>买入看跌期权</td>
+<td>卖出看跌期权</td>
+</tr>
+</tbody></table>
+<h2 id="简单几个例子">简单几个例子</h2>
+<h3 id="short-put">Short Put</h3>
+<p>为了简单我们先用 <code>Short Put</code>做例子。从上表来看，<code>Short Put</code>字面意思是卖出看跌期权。用一个通俗的说法来说就是：</p>
+<p><em>我认为某个股票在未来某个日子会下跌，所以我提供一个保险，如果你们付我保险金，如果股价要是跌破了某个价位，我来跟你用该行价位买回该股票，减少你的损失。</em></p>
+<p>这个句子中：</p>
+<ul>
+<li>我认为会跌 = 看跌</li>
+<li>未来某个日子 = 期权结算日</li>
+<li>保险金 = 期权金</li>
+<li>要是跌破了某个价位 = 行权价被执行</li>
+<li>我来跟你用该价位买回 = 卖方强制执行合约</li>
+</ul>
+<p>那么你会问，要是没跌破呢？没跌破的话保费我就袋袋平安了，这不就是保险赚钱的原理吗。</p>
+<p>如果还是不大明白的话，再举个例子：假设现在是1月1号，腾讯每股700块钱。最近大盘不稳，Alice觉得会持续下跌，于是卖出一张<code>看跌期权</code>（也称作做了一张<code>Short Put</code>），行权日2月1号，行权价格650元，100股。权利金700元。</p>
+<p>这时候，持有腾讯的Bob也觉得大盘不稳，但是他更悲观，觉得腾讯会跌破600。于是Bob支付了700块，向Alice购买了她提供保险，至少到时候手中的货可以以650卖出。</p>
+<p>到了2月1号，这时候有两种情况。</p>
+<ol>
+<li>腾讯跌破650。譬如说600，那么期权作废（看跌成功）。</li>
+</ol>
+<p>这时候Alice必须以650的价格跟B买入腾讯。 </p>
+<p>此时Alice浮动亏损 (650 * 100 - 600*100) * 100 = 5000。因为Alice以高于市价50的价格买入了100股腾讯。但又由于之前收了保费，保费是不会退的，所以账面上Alice得到了650块的腾讯100股，再加上700块保费利润。</p>
+<p>另一方面B可以用市价600买100股腾讯，然后让650块卖给A。净赚 5000-700，回报率4300/700 ~ 600%</p>
+<ol start="2">
+<li>腾讯在650以上，期权成立（看跌失败）。</li>
+</ol>
+<p>此期权作废。但Alice空手套白狼净挣700元保费。Bob净亏损700。</p>
+<p>相对于Alice来说，她完成了一次<code>Short Put</code>。而Bob则完成了一次<code>Long Put</code>。</p>
+<p>聪明的你是不是发现了，只要理解了什么是Short，那就自然理解了什么是Long了呢。是的，不管是谁，只要<code>Short</code>（卖了）了，就必定有人<code>Long</code>（买），反之亦然。</p>
+<h3 id="short-call">Short Call</h3>
+<p>讲完了<code>Short Put</code>，讲一下<code>Short Call</code>。而Short Call字面意思是卖出看涨期权。</p>
+<p>与Short Put的保险性质不同，Short Call更像是贩卖优惠券：</p>
+<p><em>我认为某个股票在未来会上升，所以我先卖个优惠券，可以赌一下该股票会不会升到某个行权价。要是升到了，买方可以用该行权价来买股票</em></p>
+<p>再次以腾讯做例子，2月1日650元。Alice觉得回调也是时候结束了，于是卖出一张<code>看涨期权</code>，行权日3月1号，行权价格700元，100股，<code>权利金</code>700元。</p>
+<p>这时候，Chris觉得腾讯会升，而且是大升。于是花了700元跟A购买Alice的优惠券。</p>
+<p>到了3月1号，这时有两种情况：</p>
+<ol>
+<li>腾讯只涨到了680。此期权作废（看涨失败）。</li>
+</ol>
+<p>Alice空手套白狼净赚700。</p>
+<p>Chris损失700。</p>
+<ol start="2">
+<li>腾讯涨到了780，期权成立（看涨成功）。</li>
+</ol>
+<p>Alice必须以市价买入腾讯（或者把自己持有的腾讯股票）并以700的价格卖给B。</p>
+<p>Bob用700块买了100股腾讯，由于此时市价是780，他可以转手卖出，获利 (780 - 700) * 100 = 8000块！回报率 8000 / 700 ~ = 1100%</p>
+<h3 id="规律">规律</h3>
+<p>你可以发现<code>Short</code>的人，在行权日如果股票达到行权价，他必须买入股票（如果看跌），或卖出股票（看涨）。但是<code>Long</code>的人是可以选择不行权的。所以这就是期权为什么英文叫做Option的原因。本质上他就是两个人在对赌。</p>
+<p>做<code>Short</code>的人，他其实是在赌一个小概率的发生事情不会发生（像意外，危疾至于保险）。所以他的风险低，收益也不高，但却可以积少成多。但是意外真的发生了的话，他的损失理论上是可以放大很多倍的。</p>
+<p>做<code>Long</code>的人，他其实是在赌一个小概率的事情真的发生了。所以他的成本低，等于买个保险。要是意外发生了，可以获得十分丰厚的报酬，理论上这个报酬是可以没有上限的。</p>
+<p><img src="/images/relationship.png" alt="价内价外"></p>
+<h2 id="期权的应用">期权的应用</h2>
+<p>明白了以上，我们可以得出执行以下4种策略，如果想赢钱的话是什么心态：</p>
+<ol>
+<li><code>Short Call</code>：看涨但不涨高于某个点。</li>
+<li><code>Long Call</code>：看涨而且是涨越多越好。</li>
+<li><code>Short Put</code>：看跌但不跌破某个点。</li>
+<li><code>Long Put</code>：看跌而且是跌越多越好。</li>
+</ol>
+<p>而无论看涨还是抗跌：</p>
+<ol>
+<li><code>Short</code>适合稳定赚点小钱，或者手上有货，想卖出或买入。</li>
+<li><code>Long</code>更像是风险对冲，以一点小钱换来在市场剧烈波动的时候的巨额收入，虽然概率比较少。</li>
+</ol>
+<h2 id="名词解释">名词解释</h2>
+<p><code>权利金</code></p>
+<p><code>行权价</code></p>
+<p><code>行权日</code></p>
+<p><code>价外</code> 对于Call来说，价外=行权价比正价更高的Call。对于Put来说，价外=行权价比正价更低的Put。</p>
+<p><code>价内</code> 对于Call来说，价外=行权价比正价更低的Call。对于Put来说，价外=行权价比正价更高的Put。</p>
+<p><img src="/images/%E4%BB%B7%E5%A4%96%E4%BB%B7%E5%86%85.PNG" alt="价内价外"></p>
+<p><code>IV</code></p>
+<p><code>HV</code></p>
+<p><code>Debit Put Spread</code> = 价外Long Put + 更价外 Short Put。主看跌</p>
+<p><img src="/images/debit_put_spread.PNG" alt="价内价外"></p>
+<p><code>Credit Put Spread</code> = 价外Short Put + 更价外 Long Put。主看涨或牛皮</p>
+<p><img src="/images/credit_put_spread.PNG" alt="价内价外"></p>
+<p><code>Raito Spread</code> = 价外 Long Put + 两张or以上更价外的Short Put</p>
+</div></article><div class="text-blue-500 my-2 hover:text-blue-900 underline"><a href="/">Back to Home</a></div></div><footer class="footer_footer__18xq9"><p class="footer_footer_text__hjc-r">Copyright © 2021 by Noseary Yuan</p></footer></main></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"title":"期权的玩法","content":"\u003ch2 id=\"前言\"\u003e前言\u003c/h2\u003e\n\u003cp\u003e去年开始接触炒股，期中偶尔有闻，如果正股买卖是投资界的锤子，那期权就是一套完整的工具箱。\n所以抱着学习以及增强FQ（Financial Quotient）的心态，学习了一下什么是期权。这是一篇自己的学习心得以及理解。\u003c/p\u003e\n\u003ch2 id=\"正股的玩法\"\u003e正股的玩法\u003c/h2\u003e\n\u003cp\u003e一般我们知道，股票赚钱的方式有两种，做多\u003ccode\u003eLong\u003c/code\u003e 以及做空 \u003ccode\u003eShort\u003c/code\u003e。 做多好理解，就是低买高卖赚差价，那么做空呢？做空则是反过来，股价高的时候，借别人的持股卖出，过一段时间再赎回来还给人家，这个过程中如果股价下跌了，我们同样可以高卖低买赚取差价（当然要借的东西得支付一些利息，不在此文讨论范围内，略過不表）。\u003c/p\u003e\n\u003ch2 id=\"期权option的玩法\"\u003e期权(Option)的玩法\u003c/h2\u003e\n\u003cp\u003e而期权则是可以简单粗暴的理解成利用正股价格未来的波动来和别人对赌的一个过程。\u003c/p\u003e\n\u003cp\u003e具体定义：卖方以一定\u003ccode\u003e权利金\u003c/code\u003e出售一张合约，让买方可以在\u003ccode\u003e行权日\u003c/code\u003e以\u003ccode\u003e行权价\u003c/code\u003e出售或买入该正股的股票。\u003c/p\u003e\n\u003cp\u003e这个过程中，如果我们是期权的买入方，那就是\u003ccode\u003eLong\u003c/code\u003e，如果卖出方就是\u003ccode\u003eShort\u003c/code\u003e，他们是动词。如果该期权是看涨则是\u003ccode\u003eCall\u003c/code\u003e, 看跌则是\u003ccode\u003ePut\u003c/code\u003e。有以下关系：\u003c/p\u003e\n\u003ctable\u003e\n\u003cthead\u003e\n\u003ctr\u003e\n\u003cth\u003e\u003c/th\u003e\n\u003cth\u003eLong\u003c/th\u003e\n\u003cth\u003eShort\u003c/th\u003e\n\u003c/tr\u003e\n\u003c/thead\u003e\n\u003ctbody\u003e\u003ctr\u003e\n\u003ctd\u003eCall\u003c/td\u003e\n\u003ctd\u003e买入看涨期权\u003c/td\u003e\n\u003ctd\u003e卖出看涨期权\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003ePut\u003c/td\u003e\n\u003ctd\u003e买入看跌期权\u003c/td\u003e\n\u003ctd\u003e卖出看跌期权\u003c/td\u003e\n\u003c/tr\u003e\n\u003c/tbody\u003e\u003c/table\u003e\n\u003ch2 id=\"简单几个例子\"\u003e简单几个例子\u003c/h2\u003e\n\u003ch3 id=\"short-put\"\u003eShort Put\u003c/h3\u003e\n\u003cp\u003e为了简单我们先用 \u003ccode\u003eShort Put\u003c/code\u003e做例子。从上表来看，\u003ccode\u003eShort Put\u003c/code\u003e字面意思是卖出看跌期权。用一个通俗的说法来说就是：\u003c/p\u003e\n\u003cp\u003e\u003cem\u003e我认为某个股票在未来某个日子会下跌，所以我提供一个保险，如果你们付我保险金，如果股价要是跌破了某个价位，我来跟你用该行价位买回该股票，减少你的损失。\u003c/em\u003e\u003c/p\u003e\n\u003cp\u003e这个句子中：\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003e我认为会跌 = 看跌\u003c/li\u003e\n\u003cli\u003e未来某个日子 = 期权结算日\u003c/li\u003e\n\u003cli\u003e保险金 = 期权金\u003c/li\u003e\n\u003cli\u003e要是跌破了某个价位 = 行权价被执行\u003c/li\u003e\n\u003cli\u003e我来跟你用该价位买回 = 卖方强制执行合约\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp\u003e那么你会问，要是没跌破呢？没跌破的话保费我就袋袋平安了，这不就是保险赚钱的原理吗。\u003c/p\u003e\n\u003cp\u003e如果还是不大明白的话，再举个例子：假设现在是1月1号，腾讯每股700块钱。最近大盘不稳，Alice觉得会持续下跌，于是卖出一张\u003ccode\u003e看跌期权\u003c/code\u003e（也称作做了一张\u003ccode\u003eShort Put\u003c/code\u003e），行权日2月1号，行权价格650元，100股。权利金700元。\u003c/p\u003e\n\u003cp\u003e这时候，持有腾讯的Bob也觉得大盘不稳，但是他更悲观，觉得腾讯会跌破600。于是Bob支付了700块，向Alice购买了她提供保险，至少到时候手中的货可以以650卖出。\u003c/p\u003e\n\u003cp\u003e到了2月1号，这时候有两种情况。\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003e腾讯跌破650。譬如说600，那么期权作废（看跌成功）。\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003e这时候Alice必须以650的价格跟B买入腾讯。 \u003c/p\u003e\n\u003cp\u003e此时Alice浮动亏损 (650 * 100 - 600*100) * 100 = 5000。因为Alice以高于市价50的价格买入了100股腾讯。但又由于之前收了保费，保费是不会退的，所以账面上Alice得到了650块的腾讯100股，再加上700块保费利润。\u003c/p\u003e\n\u003cp\u003e另一方面B可以用市价600买100股腾讯，然后让650块卖给A。净赚 5000-700，回报率4300/700 ~ 600%\u003c/p\u003e\n\u003col start=\"2\"\u003e\n\u003cli\u003e腾讯在650以上，期权成立（看跌失败）。\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003e此期权作废。但Alice空手套白狼净挣700元保费。Bob净亏损700。\u003c/p\u003e\n\u003cp\u003e相对于Alice来说，她完成了一次\u003ccode\u003eShort Put\u003c/code\u003e。而Bob则完成了一次\u003ccode\u003eLong Put\u003c/code\u003e。\u003c/p\u003e\n\u003cp\u003e聪明的你是不是发现了，只要理解了什么是Short，那就自然理解了什么是Long了呢。是的，不管是谁，只要\u003ccode\u003eShort\u003c/code\u003e（卖了）了，就必定有人\u003ccode\u003eLong\u003c/code\u003e（买），反之亦然。\u003c/p\u003e\n\u003ch3 id=\"short-call\"\u003eShort Call\u003c/h3\u003e\n\u003cp\u003e讲完了\u003ccode\u003eShort Put\u003c/code\u003e，讲一下\u003ccode\u003eShort Call\u003c/code\u003e。而Short Call字面意思是卖出看涨期权。\u003c/p\u003e\n\u003cp\u003e与Short Put的保险性质不同，Short Call更像是贩卖优惠券：\u003c/p\u003e\n\u003cp\u003e\u003cem\u003e我认为某个股票在未来会上升，所以我先卖个优惠券，可以赌一下该股票会不会升到某个行权价。要是升到了，买方可以用该行权价来买股票\u003c/em\u003e\u003c/p\u003e\n\u003cp\u003e再次以腾讯做例子，2月1日650元。Alice觉得回调也是时候结束了，于是卖出一张\u003ccode\u003e看涨期权\u003c/code\u003e，行权日3月1号，行权价格700元，100股，\u003ccode\u003e权利金\u003c/code\u003e700元。\u003c/p\u003e\n\u003cp\u003e这时候，Chris觉得腾讯会升，而且是大升。于是花了700元跟A购买Alice的优惠券。\u003c/p\u003e\n\u003cp\u003e到了3月1号，这时有两种情况：\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003e腾讯只涨到了680。此期权作废（看涨失败）。\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003eAlice空手套白狼净赚700。\u003c/p\u003e\n\u003cp\u003eChris损失700。\u003c/p\u003e\n\u003col start=\"2\"\u003e\n\u003cli\u003e腾讯涨到了780，期权成立（看涨成功）。\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003eAlice必须以市价买入腾讯（或者把自己持有的腾讯股票）并以700的价格卖给B。\u003c/p\u003e\n\u003cp\u003eBob用700块买了100股腾讯，由于此时市价是780，他可以转手卖出，获利 (780 - 700) * 100 = 8000块！回报率 8000 / 700 ~ = 1100%\u003c/p\u003e\n\u003ch3 id=\"规律\"\u003e规律\u003c/h3\u003e\n\u003cp\u003e你可以发现\u003ccode\u003eShort\u003c/code\u003e的人，在行权日如果股票达到行权价，他必须买入股票（如果看跌），或卖出股票（看涨）。但是\u003ccode\u003eLong\u003c/code\u003e的人是可以选择不行权的。所以这就是期权为什么英文叫做Option的原因。本质上他就是两个人在对赌。\u003c/p\u003e\n\u003cp\u003e做\u003ccode\u003eShort\u003c/code\u003e的人，他其实是在赌一个小概率的发生事情不会发生（像意外，危疾至于保险）。所以他的风险低，收益也不高，但却可以积少成多。但是意外真的发生了的话，他的损失理论上是可以放大很多倍的。\u003c/p\u003e\n\u003cp\u003e做\u003ccode\u003eLong\u003c/code\u003e的人，他其实是在赌一个小概率的事情真的发生了。所以他的成本低，等于买个保险。要是意外发生了，可以获得十分丰厚的报酬，理论上这个报酬是可以没有上限的。\u003c/p\u003e\n\u003cp\u003e\u003cimg src=\"/images/relationship.png\" alt=\"价内价外\"\u003e\u003c/p\u003e\n\u003ch2 id=\"期权的应用\"\u003e期权的应用\u003c/h2\u003e\n\u003cp\u003e明白了以上，我们可以得出执行以下4种策略，如果想赢钱的话是什么心态：\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003e\u003ccode\u003eShort Call\u003c/code\u003e：看涨但不涨高于某个点。\u003c/li\u003e\n\u003cli\u003e\u003ccode\u003eLong Call\u003c/code\u003e：看涨而且是涨越多越好。\u003c/li\u003e\n\u003cli\u003e\u003ccode\u003eShort Put\u003c/code\u003e：看跌但不跌破某个点。\u003c/li\u003e\n\u003cli\u003e\u003ccode\u003eLong Put\u003c/code\u003e：看跌而且是跌越多越好。\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003e而无论看涨还是抗跌：\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003e\u003ccode\u003eShort\u003c/code\u003e适合稳定赚点小钱，或者手上有货，想卖出或买入。\u003c/li\u003e\n\u003cli\u003e\u003ccode\u003eLong\u003c/code\u003e更像是风险对冲，以一点小钱换来在市场剧烈波动的时候的巨额收入，虽然概率比较少。\u003c/li\u003e\n\u003c/ol\u003e\n\u003ch2 id=\"名词解释\"\u003e名词解释\u003c/h2\u003e\n\u003cp\u003e\u003ccode\u003e权利金\u003c/code\u003e\u003c/p\u003e\n\u003cp\u003e\u003ccode\u003e行权价\u003c/code\u003e\u003c/p\u003e\n\u003cp\u003e\u003ccode\u003e行权日\u003c/code\u003e\u003c/p\u003e\n\u003cp\u003e\u003ccode\u003e价外\u003c/code\u003e 对于Call来说，价外=行权价比正价更高的Call。对于Put来说，价外=行权价比正价更低的Put。\u003c/p\u003e\n\u003cp\u003e\u003ccode\u003e价内\u003c/code\u003e 对于Call来说，价外=行权价比正价更低的Call。对于Put来说，价外=行权价比正价更高的Put。\u003c/p\u003e\n\u003cp\u003e\u003cimg src=\"/images/%E4%BB%B7%E5%A4%96%E4%BB%B7%E5%86%85.PNG\" alt=\"价内价外\"\u003e\u003c/p\u003e\n\u003cp\u003e\u003ccode\u003eIV\u003c/code\u003e\u003c/p\u003e\n\u003cp\u003e\u003ccode\u003eHV\u003c/code\u003e\u003c/p\u003e\n\u003cp\u003e\u003ccode\u003eDebit Put Spread\u003c/code\u003e = 价外Long Put + 更价外 Short Put。主看跌\u003c/p\u003e\n\u003cp\u003e\u003cimg src=\"/images/debit_put_spread.PNG\" alt=\"价内价外\"\u003e\u003c/p\u003e\n\u003cp\u003e\u003ccode\u003eCredit Put Spread\u003c/code\u003e = 价外Short Put + 更价外 Long Put。主看涨或牛皮\u003c/p\u003e\n\u003cp\u003e\u003cimg src=\"/images/credit_put_spread.PNG\" alt=\"价内价外\"\u003e\u003c/p\u003e\n\u003cp\u003e\u003ccode\u003eRaito Spread\u003c/code\u003e = 价外 Long Put + 两张or以上更价外的Short Put\u003c/p\u003e\n","date":"2020/01/22"},"__N_SSG":true},"page":"/posts/[slug]","query":{"slug":"options"},"buildId":"MB96CW55bOiJ7Lig-bUrY","assetPrefix":"https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages","runtimeConfig":{},"nextExport":false,"isFallback":false,"gsp":true}</script><script nomodule="" src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/polyfills-99d808df29361cf7ffb1.js"></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/main-ae4733327bd95c4ac325.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/webpack-50bee04d1dc61f8adf5b.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/framework.9d524150d48315f49e80.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/commons.9528123feb626448eb3f.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/pages/_app-a0dd4486b5da7e90db1c.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/2c3b9bffc7150b37a7b3810dfcf1c0b0fac2bd18.bb41be078f1a1a8597d6.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/pages/posts/%5Bslug%5D-03cd88347e80ee377f49.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/MB96CW55bOiJ7Lig-bUrY/_buildManifest.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/MB96CW55bOiJ7Lig-bUrY/_ssgManifest.js" async=""></script></body></html>
