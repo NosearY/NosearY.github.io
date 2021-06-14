@@ -26,13 +26,15 @@ jobs:
 
       - name: Install Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         uses: actions/setup-node@v2
-        run: yarn install # will run `yarn install` command
+        with:
+          cmd: yarn build # will run `yarn build` command
         env:
           CI: true
 
       - name: Install Install 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         uses: actions/setup-node@v2
-        run: yarn build # will run `yarn build` command
+        with:
+          cmd: yarn build # will run `yarn build` command
         env:
           CI: true
 
