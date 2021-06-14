@@ -1,26 +1,17 @@
 import Head from "next/head";
 import Header from "@includes/header";
 import Footer from "@includes/footer";
-import styles from "./default.module.css";
 
 export default function DefaultLayout(props) {
   return (
-    <main>
+    <main className="contaienr mx-auto max-w-screen-lg">
       <Head>
         <title>{props.title}</title>
         <meta name="description" content={props.description} />
       </Head>
       <Header isHome={props.isHome} />
-      <div className={styles.container}>{props.children}</div>
+      <div>{props.children}</div>
       <Footer />
-      <style jsx>
-        {`
-          main {
-            max-width: 1024px;
-            margin: 0 auto;
-          }
-        `}
-      </style>
     </main>
   );
 }

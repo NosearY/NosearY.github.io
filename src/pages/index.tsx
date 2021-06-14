@@ -21,24 +21,32 @@ export default function Blog(props: BlogMeta): any {
       date={props.date}
       isHome={true}
     >
-      <p>文章: </p>
-      <hr></hr>
-      <ul>
-        {props.posts.map((post, idx) => {
-          return (
-            <li key={idx} className={styles.li_container}>
-              <div className={[styles.date_label, utilStyles.flex1].join(" ")}>
-                {post.date}
-              </div>
-              <div className={[styles.post_title, utilStyles.flex12].join(" ")}>
-                <Link href={"/posts/" + post.slug}>
-                  <a>{post.title}</a>
-                </Link>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+      <div className="container">
+        <p className="antialiased py-4 pl-4 font-bold">文章列表: </p>
+        <hr></hr>
+        <ul>
+          {props.posts.map((post, idx) => {
+            return (
+              <li
+                key={idx}
+                className="flex flex-row justify-left items-center my-4 space-x-6 text-gray-600"
+              >
+                <div className="text-white bg-blue-500 text-xs rounded-full py-2 px-4">
+                  {post.date}
+                </div>
+                <div>
+                  <Link href={"/posts/" + post.slug}>
+                    <span className="hover:no-underline hover:text-black cursor-pointer">
+                      {post.title}
+                    </span>
+                  </Link>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
       <style jsx>
         {`
           ul {

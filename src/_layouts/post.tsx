@@ -9,22 +9,28 @@ export default function PostLayout(props) {
       <Head>
         <title>{props.title}</title>
       </Head>
-      <article>
-        <div>
+      <div>
+        <div className="text-blue-500 my-2 hover:text-blue-900 underline">
           <Link href="/">
             <a>Back to Home</a>
           </Link>
         </div>
-        <h1>{props.title}</h1>
-        <pre>{props.date}</pre>
-        <hr></hr>
+        <div className="flex flex-row justify-left items-center border-b-2 py-4 border-gray-400">
+          <h1 className="text-4xl">{props.title}</h1>
+          <div className="flex-grow"></div>
+          <p className="text-white bg-blue-500 text-xs rounded-full py-2 px-4">
+            {props.date}
+          </p>
+        </div>
+      </div>
+      <article className="prose sm:prose-sm max-w-none">
         <div dangerouslySetInnerHTML={{ __html: props.content }} />
-        <div>
-          <Link href="/">
-            <a>Back to Home</a>
-          </Link>
-        </div>
       </article>
+      <div className="text-blue-500 my-2 hover:text-blue-900 underline">
+        <Link href="/">
+          <a>Back to Home</a>
+        </Link>
+      </div>
     </DefaultLayout>
   );
 }

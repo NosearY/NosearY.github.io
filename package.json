@@ -8,6 +8,7 @@
     "start:debug": "node --nolazy --inspect-brk=5858 server.js"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.4.1",
     "date-fns": "^2.16.1",
     "gray-matter": "^4.0.2",
     "next": "10.0.5",

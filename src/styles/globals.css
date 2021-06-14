@@ -1,4 +1,4 @@
-html,
+/* html,
 body {
   padding: 0;
   margin: 0;
@@ -24,5 +24,31 @@ a:hover {
 img {
   max-width: 100%;
   display: block;
+} */
+
+@tailwind base;
+
+@layer base {
+  a {
+    @apply text-blue-500;
+  }
+
+  /* blockquote,
+  dl,
+  dd,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  hr,
+  figure,
+  p,
+  pre {
+    @apply my-2;
+  } */
 }
 
+@tailwind components;
+@tailwind utilities;
