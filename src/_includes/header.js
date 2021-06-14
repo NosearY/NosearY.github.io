@@ -1,7 +1,7 @@
 import styles from "./header.module.css";
-import utilStyles from "src/styles/utils.module.css";
+import Image from "next/image";
 
-const name = "Nosear Yuan";
+const name = "Noseary的博客";
 const bio = "随便聊聊，想到什么写什么";
 
 export default function Header({ isHome }) {
@@ -36,14 +36,20 @@ export default function Header({ isHome }) {
               ></path>
             </svg>
           </a>
-          <img
-            src="/images/profile.jpg"
-            className={`${styles.headerHomeImage} ${utilStyles.borderCircle}`}
-            alt={name}
-          />
-          <div>
-            <span className={utilStyles.headingXl}>{name}</span>
-            <span> | {bio}</span>
+          <div className="my-1">
+            <Image
+              className="rounded-full"
+              src="/images/profile.jpg"
+              width={160}
+              height={160}
+              alt={name}
+            />
+          </div>
+
+          <div className="flex space-x-6 text-lg">
+            <p>{name}</p>
+            <p>|</p>
+            <p>{bio}</p>
           </div>
         </>
       ) : (
