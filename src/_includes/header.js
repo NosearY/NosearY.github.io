@@ -37,19 +37,17 @@ export default function Header({ isHome }) {
             </svg>
           </a>
           <div className="my-1">
-            <Image
-              className="rounded-full"
+            <img
+              className="rounded-full w-44 h-44"
               src="/images/profile.jpg"
-              width={160}
-              height={160}
               alt={name}
             />
           </div>
 
-          <div className="flex space-x-6 text-lg">
-            <p>{name}</p>
-            <p>|</p>
-            <p>{bio}</p>
+          <div className="flex space-x-6 text-lg text-gray-600">
+            <p>
+              {name}。{bio}
+            </p>
           </div>
         </>
       ) : (
