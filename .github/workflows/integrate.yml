@@ -19,6 +19,11 @@ jobs:
           path: ${{ github.workspace }}/.next/cache
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
 
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "12.13.0"
+
       - name: Install Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         uses: borales/actions-yarn@v2.0.0
         with:
