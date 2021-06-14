@@ -1,5 +1,4 @@
 import styles from "./header.module.css";
-import Image from "next/image";
 
 const name = "Noseary的博客";
 const bio = "随便聊聊，想到什么写什么";
