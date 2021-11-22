@@ -44,7 +44,7 @@ export default function Header({ isHome }) {
           </div>
 
           <div className="flex space-x-6 text-lg text-gray-600">
-            <p>
+            <p className="cursor-not-default">
               {name}。{bio}
             </p>
           </div>
