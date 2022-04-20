@@ -1,123 +1,101 @@
-<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width"/><meta charSet="utf-8"/><meta name="description"/><title>SSL Certs 真的很烦</title><meta name="next-head-count" content="4"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/css/394b9dd2295d9ab963c4.css" as="style"/><link rel="stylesheet" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/css/394b9dd2295d9ab963c4.css" data-n-g=""/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/css/7376024e78a64674fecc.css" as="style"/><link rel="stylesheet" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/css/7376024e78a64674fecc.css" data-n-p=""/><noscript data-n-css=""></noscript><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/main-ae4733327bd95c4ac325.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/webpack-50bee04d1dc61f8adf5b.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/framework.9d524150d48315f49e80.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/commons.9528123feb626448eb3f.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/pages/_app-2f0ab87681b72fb94efc.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/2c3b9bffc7150b37a7b3810dfcf1c0b0fac2bd18.7e2c44cbea5a399327b3.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/pages/posts/%5Bslug%5D-03cd88347e80ee377f49.js" as="script"/></head><body><div id="__next"><main class="contaienr mx-auto max-w-screen-lg"><header class=""></header><div><div><div class="text-blue-500 my-2 hover:text-blue-900 underline"><a href="/">Back to Home</a></div><div class="flex flex-row justify-left items-center border-b-2 py-4 border-gray-400"><h1 class="text-4xl">SSL Certs 真的很烦</h1><div class="flex-grow"></div><p class="text-white bg-blue-500 text-xs rounded-full py-2 px-4">2021/11/22</p></div></div><article class="prose sm:prose-sm max-w-none"><div><h2 id="前言">前言</h2>
-<p>今天被分配了一个任务，需要在一个Java容器里用X.509证书调用另外一个服务器的RESTful API。期间经历了无数次证书无法验证的挫折，鼓捣了好久才终于成功。觉得还是有必要梳理一下自己的理解。</p>
-<h2 id="什么是ssl-certs">什么是SSL Certs</h2>
-<p>由CA(Certificate Authority)签发的数据凭证。用于验证服务器的身份。服务器的拥有者需要妥善保存证书，并且在客户端请求的时候提供相关证书。一旦浏览器发现证书有误，如域名错误，时间不正确，过期等，会有相关的提示警告请求者。</p>
-<p>证书如果泄露，黑客可以利用被泄露的证书做很多坏事情。</p>
-<p>有时候，SSL Certs也可以由CA签发给客户端，以让服务器验证客户端的身份。</p>
-<p>由此可见，CA必须是一个大家都信任的实体，通常又一些大公司提供（如GoDaddy, AWS，阿里等）。
-CA也可以自己建立，由自建CA签发的证书叫做Self-Signed-Certs。一般来说遇见Self-Signed-Certs浏览器都会有警告，必须将其加入系统信任列表里方可正常使用。</p>
-<h2 id="ssl-certs-的格式">SSL Certs 的格式</h2>
-<p>SSL Certs的格式有很多种，什么PEM, CER, DER，JKS, PCKS12，有的时候光听到这几个似曾相识的名字就让人头都大了。</p>
-<p>小朋友如果你有很多问题，不妨看看以下表格</p>
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width"/><meta charSet="utf-8"/><meta name="description"/><title>File formats and terms used in the context of SSL</title><meta name="next-head-count" content="4"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/css/e2e350410f8325966be9.css" as="style"/><link rel="stylesheet" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/css/e2e350410f8325966be9.css" data-n-g=""/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/css/e6490168b741b9fc30fb.css" as="style"/><link rel="stylesheet" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/css/e6490168b741b9fc30fb.css" data-n-p=""/><noscript data-n-css=""></noscript><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/main-ae4733327bd95c4ac325.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/webpack-50bee04d1dc61f8adf5b.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/framework.0a9f20eff0752717cd72.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/commons.df505fa4d59f0030d15a.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/pages/_app-aa32f07bba393b6fc65d.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/2c3b9bffc7150b37a7b3810dfcf1c0b0fac2bd18.fbe88f10397d931f01ac.js" as="script"/><link rel="preload" href="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/pages/posts/%5Bslug%5D-0e934f3f5bd687c8a8b4.js" as="script"/></head><body><div id="__next"><main class="contaienr mx-auto max-w-screen-lg"><header class=""></header><div class="p-20"><div><div class="text-blue-500 my-2 hover:text-blue-900 underline"><a href="/">Back to Home</a></div><div class="flex flex-row justify-left items-center border-b-2 py-4 border-gray-400"><h1 class="text-4xl">File formats and terms used in the context of SSL</h1><div class="flex-grow"></div><p class="text-white bg-blue-500 text-xs rounded-full py-2 px-4">Posted on <!-- -->2021/11/22</p></div></div><article class="prose sm:prose-sm max-w-none"><div><h2 id="preface">Preface</h2>
+<p>You may have heard many buzzwords when reading SSL cert related articles, like <code>.pem</code>, <code>cer</code>, <code>der</code>, <code>jks</code>, <code>pkcs12</code>, etc.  One could easily get confused by these terms as there are dozen of them.
+This article aims to sort out some of the frequently heard file format and terms and try to explain why and how they are used.</p>
+<h2 id="ssl-objects">SSL Objects</h2>
+<p>When talking SSL, we are talking about a context where the information in it can be exchanged with trust.  And such safety and trust is established upon SSL certs and certificate authorities who recognize them.  <br>However we are here today not to discuss how SSL actually works because that would bring up another discussion that can span a whole day long. <br>You just need to know that in order to generate certificates used in SSL contexts, a series of SSL objects are needed.  And we need different <code>container format</code> to store these SSL objects.</p>
+<h2 id="the-container-formats-and-their-extension">The container formats and their extension</h2>
+<p>A container in the following context refers to the file that is used to store data in a way that machine can understand it.  See below table for the most widely used container formats.</p>
 <table>
 <thead>
 <tr>
-<th>格式</th>
-<th align="left">内容</th>
-<th align="left">干嘛的</th>
-<th>可保存证书？</th>
-<th>可保存密钥？</th>
-<th>常用于</th>
+<th>Extension</th>
+<th align="left">Format</th>
+<th align="left">Definition</th>
+<th>Convertible</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>.DER</td>
-<td align="left">二进制</td>
-<td align="left">一种转码的方法</td>
-<td>-</td>
-<td>-</td>
-<td></td>
+<td>.der</td>
+<td align="left">Binary</td>
+<td align="left">A way to encode <a href="https://en.wikipedia.org/wiki/ASN.1">ASN.1</a> syntax in binary</td>
+<td>to .pem</td>
 </tr>
 <tr>
-<td>.CER</td>
-<td align="left">二进制</td>
-<td align="left">指代证书</td>
-<td>是</td>
-<td>否</td>
-<td></td>
+<td>.pem</td>
+<td align="left">Plaintext</td>
+<td align="left">Plain text representation of <code>.der</code>.  The content of which is like below <br>-----BEGIN CERTIFICATE-----<br>...Base64 encoded contents...<br>-----END CERTIFICATE-----</td>
+<td>to .der</td>
 </tr>
 <tr>
-<td>.CRT</td>
-<td align="left">明文或二进制皆可</td>
-<td align="left">指代证书</td>
-<td>是</td>
-<td>否</td>
-<td></td>
-</tr>
-<tr>
-<td>.PEM</td>
-<td align="left">明文</td>
-<td align="left">一种转码方法</td>
-<td>是</td>
-<td>是</td>
-<td>Apache/Nginx</td>
-</tr>
-<tr>
-<td>.KEY</td>
-<td align="left">明文</td>
-<td align="left">其实就是PEM，只是改成.KEY易于区分密钥和证书</td>
-<td>-</td>
-<td>-</td>
-<td></td>
-</tr>
-<tr>
-<td>.CSR</td>
-<td align="left">二进制</td>
-<td align="left">证书签名请求(Cert Signing Request)</td>
-<td>-</td>
-<td>-</td>
-<td>递交给CA以获取公钥证书(x.509)</td>
+<td>.pkcs12 .p12</td>
+<td align="left">Binary</td>
+<td align="left">Password procted and fully encrypted container format that is used to store multiple entry of pub/private cert pairs in <a href="https://en.wikipedia.org/wiki/PKCS_12">PCKS12</a> format</td>
+<td>The entire file can be converte to .pem or each cert/key in it can be stripped out to convert into .pem</td>
 </tr>
 <tr>
 <td>.pfx</td>
-<td align="left">二进制</td>
-<td align="left">Predecessor of PKCS#12</td>
-<td>必须</td>
-<td>必须</td>
-<td>Windows IIS</td>
+<td align="left">Binary</td>
+<td align="left">Predecessor of .pkcs12 .p12 and mainly used in Windows environment like IIS</td>
+<td>same as as above</td>
 </tr>
 <tr>
-<td>.p12/.pkcs12</td>
-<td align="left">二进制</td>
-<td align="left">PKCS#12，一般具有密码保护</td>
-<td>必须</td>
-<td>必须</td>
-<td>Non-Windows</td>
+<td>.keystore .jks</td>
+<td align="left">Binary</td>
+<td align="left">Known as java key store, stores multiple SSL keys and certs by alias-value entry and it is password protected</td>
+<td>same as as above</td>
 </tr>
 <tr>
-<td>JKS</td>
-<td align="left">二进制</td>
-<td align="left">Java KeyStore，一般具有密码保护</td>
-<td>可以，使用Alias存取，可以用Keypass保护</td>
-<td>可以，使用Alias存取，可以用Keypass保护</td>
-<td>Java 程序 如 Tomcat</td>
+<td>.p7b</td>
+<td align="left">Binary</td>
+<td align="left">A format used by Windows for certificate/key exchange.  Its content is the same as .keystore / .jks</td>
+<td>same as as above</td>
 </tr>
 </tbody></table>
-<h3 id="更多关于pem格式">更多关于PEM格式</h3>
-<p>PEM是一种可以把二进制转码成明文的方法，一般来说他的样子如下</p>
-<pre><code>-----BEGIN CERTIFICATE-----
-&lt;Base64 encoded contents&gt;
------END CERTIFICATE-----</code></pre>
-<p>除了证书，他也可以转码密钥（公钥和私钥），或者是完成的证书链:同时含有证书，密钥和根证书。</p>
-<h3 id="什么是x509">什么是X.509</h3>
-<p>X.509是一种公钥证书的规范。制造的过程一般如下：</p>
-<ol>
-<li>生成私钥</li>
-<li>用私钥生成<code>.CSR</code>文件</li>
-<li>把公钥和<code>.CSR</code>交给提供数字签名的CA。如没有CA，也可以自己建立，这样生成的Cert一般叫做Self-Signed Cert</li>
-<li>CA返还的证书+公钥一般用.p12保存，因为其支持密码。</li>
-</ol>
-<h2 id="java相关">Java相关</h2>
-<h3 id="什么是keystore">什么是KeyStore</h3>
-<p>KeyStore (也就是.JKS后缀的一个文件)是用来存储私钥和X.509证书的。
-我们可以通过<code>javax.net.ssl.keyStore=path/to/trustStore.jks</code>来指定JVM寻找TrustStore的位置。</p>
-<p><b>可以说，KeyStore一般用来存储自身的身份</b></p>
-<h3 id="什么是trust-store">什么是Trust Store</h3>
-<p>Trust Store就是用来存贮由CA颁发的用来验证服务器有效性的证书的</p>
-<p>TrustStore是用来
-我们可以通过<code>-Djavax.net.ssl.trustStore=path/to/trustStore.jks</code>来指定JVM寻找TrustStore的位置</p>
-<p>当Java程序没有用上述指令指定TrustStore的时候，会默认寻找<code>JAVAHOME/jre/secure/cacerts</code>这个位置的文件。</p>
-<p><b>可以说，KeyStore一般用来存储服务器的身份</b></p>
-<p>KeyStore和TrustStore只是概念上的问题，实际上他们可以是同一个文件，但是<b>强烈</b>不建议这么做，原因是KeyStore一般用来存放私密性高的信息如个人的x509证书和私钥，而TrustStore则用来存放公共的信息如不同网站的SSL证书。</p>
-<p>未完待续。。。</p>
-</div></article><div class="text-blue-500 my-2 hover:text-blue-900 underline"><a href="/">Back to Home</a></div></div><footer class="footer_footer__18xq9"><p class="footer_footer_text__hjc-r">Copyright © 2021 by Noseary Yuan</p></footer></main></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"title":"SSL Certs 真的很烦","content":"\u003ch2 id=\"前言\"\u003e前言\u003c/h2\u003e\n\u003cp\u003e今天被分配了一个任务，需要在一个Java容器里用X.509证书调用另外一个服务器的RESTful API。期间经历了无数次证书无法验证的挫折，鼓捣了好久才终于成功。觉得还是有必要梳理一下自己的理解。\u003c/p\u003e\n\u003ch2 id=\"什么是ssl-certs\"\u003e什么是SSL Certs\u003c/h2\u003e\n\u003cp\u003e由CA(Certificate Authority)签发的数据凭证。用于验证服务器的身份。服务器的拥有者需要妥善保存证书，并且在客户端请求的时候提供相关证书。一旦浏览器发现证书有误，如域名错误，时间不正确，过期等，会有相关的提示警告请求者。\u003c/p\u003e\n\u003cp\u003e证书如果泄露，黑客可以利用被泄露的证书做很多坏事情。\u003c/p\u003e\n\u003cp\u003e有时候，SSL Certs也可以由CA签发给客户端，以让服务器验证客户端的身份。\u003c/p\u003e\n\u003cp\u003e由此可见，CA必须是一个大家都信任的实体，通常又一些大公司提供（如GoDaddy, AWS，阿里等）。\nCA也可以自己建立，由自建CA签发的证书叫做Self-Signed-Certs。一般来说遇见Self-Signed-Certs浏览器都会有警告，必须将其加入系统信任列表里方可正常使用。\u003c/p\u003e\n\u003ch2 id=\"ssl-certs-的格式\"\u003eSSL Certs 的格式\u003c/h2\u003e\n\u003cp\u003eSSL Certs的格式有很多种，什么PEM, CER, DER，JKS, PCKS12，有的时候光听到这几个似曾相识的名字就让人头都大了。\u003c/p\u003e\n\u003cp\u003e小朋友如果你有很多问题，不妨看看以下表格\u003c/p\u003e\n\u003ctable\u003e\n\u003cthead\u003e\n\u003ctr\u003e\n\u003cth\u003e格式\u003c/th\u003e\n\u003cth align=\"left\"\u003e内容\u003c/th\u003e\n\u003cth align=\"left\"\u003e干嘛的\u003c/th\u003e\n\u003cth\u003e可保存证书？\u003c/th\u003e\n\u003cth\u003e可保存密钥？\u003c/th\u003e\n\u003cth\u003e常用于\u003c/th\u003e\n\u003c/tr\u003e\n\u003c/thead\u003e\n\u003ctbody\u003e\u003ctr\u003e\n\u003ctd\u003e.DER\u003c/td\u003e\n\u003ctd align=\"left\"\u003e二进制\u003c/td\u003e\n\u003ctd align=\"left\"\u003e一种转码的方法\u003c/td\u003e\n\u003ctd\u003e-\u003c/td\u003e\n\u003ctd\u003e-\u003c/td\u003e\n\u003ctd\u003e\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003e.CER\u003c/td\u003e\n\u003ctd align=\"left\"\u003e二进制\u003c/td\u003e\n\u003ctd align=\"left\"\u003e指代证书\u003c/td\u003e\n\u003ctd\u003e是\u003c/td\u003e\n\u003ctd\u003e否\u003c/td\u003e\n\u003ctd\u003e\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003e.CRT\u003c/td\u003e\n\u003ctd align=\"left\"\u003e明文或二进制皆可\u003c/td\u003e\n\u003ctd align=\"left\"\u003e指代证书\u003c/td\u003e\n\u003ctd\u003e是\u003c/td\u003e\n\u003ctd\u003e否\u003c/td\u003e\n\u003ctd\u003e\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003e.PEM\u003c/td\u003e\n\u003ctd align=\"left\"\u003e明文\u003c/td\u003e\n\u003ctd align=\"left\"\u003e一种转码方法\u003c/td\u003e\n\u003ctd\u003e是\u003c/td\u003e\n\u003ctd\u003e是\u003c/td\u003e\n\u003ctd\u003eApache/Nginx\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003e.KEY\u003c/td\u003e\n\u003ctd align=\"left\"\u003e明文\u003c/td\u003e\n\u003ctd align=\"left\"\u003e其实就是PEM，只是改成.KEY易于区分密钥和证书\u003c/td\u003e\n\u003ctd\u003e-\u003c/td\u003e\n\u003ctd\u003e-\u003c/td\u003e\n\u003ctd\u003e\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003e.CSR\u003c/td\u003e\n\u003ctd align=\"left\"\u003e二进制\u003c/td\u003e\n\u003ctd align=\"left\"\u003e证书签名请求(Cert Signing Request)\u003c/td\u003e\n\u003ctd\u003e-\u003c/td\u003e\n\u003ctd\u003e-\u003c/td\u003e\n\u003ctd\u003e递交给CA以获取公钥证书(x.509)\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003e.pfx\u003c/td\u003e\n\u003ctd align=\"left\"\u003e二进制\u003c/td\u003e\n\u003ctd align=\"left\"\u003ePredecessor of PKCS#12\u003c/td\u003e\n\u003ctd\u003e必须\u003c/td\u003e\n\u003ctd\u003e必须\u003c/td\u003e\n\u003ctd\u003eWindows IIS\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003e.p12/.pkcs12\u003c/td\u003e\n\u003ctd align=\"left\"\u003e二进制\u003c/td\u003e\n\u003ctd align=\"left\"\u003ePKCS#12，一般具有密码保护\u003c/td\u003e\n\u003ctd\u003e必须\u003c/td\u003e\n\u003ctd\u003e必须\u003c/td\u003e\n\u003ctd\u003eNon-Windows\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003eJKS\u003c/td\u003e\n\u003ctd align=\"left\"\u003e二进制\u003c/td\u003e\n\u003ctd align=\"left\"\u003eJava KeyStore，一般具有密码保护\u003c/td\u003e\n\u003ctd\u003e可以，使用Alias存取，可以用Keypass保护\u003c/td\u003e\n\u003ctd\u003e可以，使用Alias存取，可以用Keypass保护\u003c/td\u003e\n\u003ctd\u003eJava 程序 如 Tomcat\u003c/td\u003e\n\u003c/tr\u003e\n\u003c/tbody\u003e\u003c/table\u003e\n\u003ch3 id=\"更多关于pem格式\"\u003e更多关于PEM格式\u003c/h3\u003e\n\u003cp\u003ePEM是一种可以把二进制转码成明文的方法，一般来说他的样子如下\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003e-----BEGIN CERTIFICATE-----\n\u0026lt;Base64 encoded contents\u0026gt;\n-----END CERTIFICATE-----\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003e除了证书，他也可以转码密钥（公钥和私钥），或者是完成的证书链:同时含有证书，密钥和根证书。\u003c/p\u003e\n\u003ch3 id=\"什么是x509\"\u003e什么是X.509\u003c/h3\u003e\n\u003cp\u003eX.509是一种公钥证书的规范。制造的过程一般如下：\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003e生成私钥\u003c/li\u003e\n\u003cli\u003e用私钥生成\u003ccode\u003e.CSR\u003c/code\u003e文件\u003c/li\u003e\n\u003cli\u003e把公钥和\u003ccode\u003e.CSR\u003c/code\u003e交给提供数字签名的CA。如没有CA，也可以自己建立，这样生成的Cert一般叫做Self-Signed Cert\u003c/li\u003e\n\u003cli\u003eCA返还的证书+公钥一般用.p12保存，因为其支持密码。\u003c/li\u003e\n\u003c/ol\u003e\n\u003ch2 id=\"java相关\"\u003eJava相关\u003c/h2\u003e\n\u003ch3 id=\"什么是keystore\"\u003e什么是KeyStore\u003c/h3\u003e\n\u003cp\u003eKeyStore (也就是.JKS后缀的一个文件)是用来存储私钥和X.509证书的。\n我们可以通过\u003ccode\u003ejavax.net.ssl.keyStore=path/to/trustStore.jks\u003c/code\u003e来指定JVM寻找TrustStore的位置。\u003c/p\u003e\n\u003cp\u003e\u003cb\u003e可以说，KeyStore一般用来存储自身的身份\u003c/b\u003e\u003c/p\u003e\n\u003ch3 id=\"什么是trust-store\"\u003e什么是Trust Store\u003c/h3\u003e\n\u003cp\u003eTrust Store就是用来存贮由CA颁发的用来验证服务器有效性的证书的\u003c/p\u003e\n\u003cp\u003eTrustStore是用来\n我们可以通过\u003ccode\u003e-Djavax.net.ssl.trustStore=path/to/trustStore.jks\u003c/code\u003e来指定JVM寻找TrustStore的位置\u003c/p\u003e\n\u003cp\u003e当Java程序没有用上述指令指定TrustStore的时候，会默认寻找\u003ccode\u003eJAVAHOME/jre/secure/cacerts\u003c/code\u003e这个位置的文件。\u003c/p\u003e\n\u003cp\u003e\u003cb\u003e可以说，KeyStore一般用来存储服务器的身份\u003c/b\u003e\u003c/p\u003e\n\u003cp\u003eKeyStore和TrustStore只是概念上的问题，实际上他们可以是同一个文件，但是\u003cb\u003e强烈\u003c/b\u003e不建议这么做，原因是KeyStore一般用来存放私密性高的信息如个人的x509证书和私钥，而TrustStore则用来存放公共的信息如不同网站的SSL证书。\u003c/p\u003e\n\u003cp\u003e未完待续。。。\u003c/p\u003e\n","date":"2021/11/22"},"__N_SSG":true},"page":"/posts/[slug]","query":{"slug":"mess-of-ssl-certs"},"buildId":"dn9XhqfnJWjI5F6GtXZ3V","assetPrefix":"https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages","runtimeConfig":{},"nextExport":false,"isFallback":false,"gsp":true}</script><script nomodule="" src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/polyfills-99d808df29361cf7ffb1.js"></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/main-ae4733327bd95c4ac325.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/webpack-50bee04d1dc61f8adf5b.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/framework.9d524150d48315f49e80.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/commons.9528123feb626448eb3f.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/pages/_app-2f0ab87681b72fb94efc.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/2c3b9bffc7150b37a7b3810dfcf1c0b0fac2bd18.7e2c44cbea5a399327b3.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/pages/posts/%5Bslug%5D-03cd88347e80ee377f49.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/dn9XhqfnJWjI5F6GtXZ3V/_buildManifest.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/dn9XhqfnJWjI5F6GtXZ3V/_ssgManifest.js" async=""></script></body></html>
+<h2 id="the-ssl-objects-and-their-extension">The SSL objects and their extension</h2>
+<p>The SSL objects can be encoded into different container format like <code>.der</code> or <code>.pem</code>.  See below table.</p>
+<table>
+<thead>
+<tr>
+<th>Extension</th>
+<th align="left">Definition</th>
+<th align="left">Container format</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.csr .p10</td>
+<td align="left">Cert signing request.  Its data format is pkcs10</td>
+<td align="left">.der / .pem</td>
+<td>Contains details of the requesting cert (subject name, issuer, country etc.) as well as public key.<br>It used to get signed by a CA and in return for a public ceritifcates.</td>
+</tr>
+<tr>
+<td>.key</td>
+<td align="left">Private key of a specific certificate</td>
+<td align="left">Usually .pem</td>
+<td>It is not a standardized format, people just conventionally renamed it as .key.</td>
+</tr>
+<tr>
+<td>.cer .crt .cert</td>
+<td align="left">Refering to a certificate</td>
+<td align="left">.pem or .der</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<h2 id="additional-tip-for-java-developer-what-is-a-trust-store-then">Additional tip for Java developer: what is a trust store then?</h2>
+<p>We have revealed a <code>keystore</code> is a container that is used to store multiple entries of private key / public key / cerificates in password encoded format.  <br>
+Actually, a <code>truststore</code> is the same in the file format with a <code>truststore</code>, the difference lies in that they are used with <em>different purpose</em>.<br>
+When establishing SSL connection, Java will look for the CA certificate resides in <code>-Djavax.net.ssl.trustStore=path/to/trustStore.jks</code> that you are willing to trust when the remote party presents their certificate, or by default <code>JAVAHOME/jre/secure/cacerts</code> if the property is missing<br>
+Whereas <code>keystore</code> is usually storing your own private key or certificates that needs to be presented to a remote SSL party.
+It is a best practise to seperate different SSL objects by <code>truststore</code> and <code>keystore</code> by their purpose but actually there is no rules to forbid the mix of use of them. </p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Today we have covered some widely used container format and how do they associate with different SSL objects.  </p>
+<h2 id="todo">todo</h2>
+<ul>
+<li>private cert</li>
+<li>public cert</li>
+<li>X.509</li>
+<li>cert chain</li>
+<li>root cert</li>
+<li>root ca</li>
+</ul>
+</div></article><div class="text-blue-500 my-2 hover:text-blue-900 underline"><a href="/">Back to Home</a></div></div><footer class="footer_footer__18xq9"><p class="footer_footer_text__hjc-r">Copyright © 2022 by Noseary Yuan</p></footer></main></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"title":"File formats and terms used in the context of SSL","content":"\u003ch2 id=\"preface\"\u003ePreface\u003c/h2\u003e\n\u003cp\u003eYou may have heard many buzzwords when reading SSL cert related articles, like \u003ccode\u003e.pem\u003c/code\u003e, \u003ccode\u003ecer\u003c/code\u003e, \u003ccode\u003eder\u003c/code\u003e, \u003ccode\u003ejks\u003c/code\u003e, \u003ccode\u003epkcs12\u003c/code\u003e, etc.  One could easily get confused by these terms as there are dozen of them.\nThis article aims to sort out some of the frequently heard file format and terms and try to explain why and how they are used.\u003c/p\u003e\n\u003ch2 id=\"ssl-objects\"\u003eSSL Objects\u003c/h2\u003e\n\u003cp\u003eWhen talking SSL, we are talking about a context where the information in it can be exchanged with trust.  And such safety and trust is established upon SSL certs and certificate authorities who recognize them.  \u003cbr\u003eHowever we are here today not to discuss how SSL actually works because that would bring up another discussion that can span a whole day long. \u003cbr\u003eYou just need to know that in order to generate certificates used in SSL contexts, a series of SSL objects are needed.  And we need different \u003ccode\u003econtainer format\u003c/code\u003e to store these SSL objects.\u003c/p\u003e\n\u003ch2 id=\"the-container-formats-and-their-extension\"\u003eThe container formats and their extension\u003c/h2\u003e\n\u003cp\u003eA container in the following context refers to the file that is used to store data in a way that machine can understand it.  See below table for the most widely used container formats.\u003c/p\u003e\n\u003ctable\u003e\n\u003cthead\u003e\n\u003ctr\u003e\n\u003cth\u003eExtension\u003c/th\u003e\n\u003cth align=\"left\"\u003eFormat\u003c/th\u003e\n\u003cth align=\"left\"\u003eDefinition\u003c/th\u003e\n\u003cth\u003eConvertible\u003c/th\u003e\n\u003c/tr\u003e\n\u003c/thead\u003e\n\u003ctbody\u003e\u003ctr\u003e\n\u003ctd\u003e.der\u003c/td\u003e\n\u003ctd align=\"left\"\u003eBinary\u003c/td\u003e\n\u003ctd align=\"left\"\u003eA way to encode \u003ca href=\"https://en.wikipedia.org/wiki/ASN.1\"\u003eASN.1\u003c/a\u003e syntax in binary\u003c/td\u003e\n\u003ctd\u003eto .pem\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003e.pem\u003c/td\u003e\n\u003ctd align=\"left\"\u003ePlaintext\u003c/td\u003e\n\u003ctd align=\"left\"\u003ePlain text representation of \u003ccode\u003e.der\u003c/code\u003e.  The content of which is like below \u003cbr\u003e-----BEGIN CERTIFICATE-----\u003cbr\u003e...Base64 encoded contents...\u003cbr\u003e-----END CERTIFICATE-----\u003c/td\u003e\n\u003ctd\u003eto .der\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003e.pkcs12 .p12\u003c/td\u003e\n\u003ctd align=\"left\"\u003eBinary\u003c/td\u003e\n\u003ctd align=\"left\"\u003ePassword procted and fully encrypted container format that is used to store multiple entry of pub/private cert pairs in \u003ca href=\"https://en.wikipedia.org/wiki/PKCS_12\"\u003ePCKS12\u003c/a\u003e format\u003c/td\u003e\n\u003ctd\u003eThe entire file can be converte to .pem or each cert/key in it can be stripped out to convert into .pem\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003e.pfx\u003c/td\u003e\n\u003ctd align=\"left\"\u003eBinary\u003c/td\u003e\n\u003ctd align=\"left\"\u003ePredecessor of .pkcs12 .p12 and mainly used in Windows environment like IIS\u003c/td\u003e\n\u003ctd\u003esame as as above\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003e.keystore .jks\u003c/td\u003e\n\u003ctd align=\"left\"\u003eBinary\u003c/td\u003e\n\u003ctd align=\"left\"\u003eKnown as java key store, stores multiple SSL keys and certs by alias-value entry and it is password protected\u003c/td\u003e\n\u003ctd\u003esame as as above\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003e.p7b\u003c/td\u003e\n\u003ctd align=\"left\"\u003eBinary\u003c/td\u003e\n\u003ctd align=\"left\"\u003eA format used by Windows for certificate/key exchange.  Its content is the same as .keystore / .jks\u003c/td\u003e\n\u003ctd\u003esame as as above\u003c/td\u003e\n\u003c/tr\u003e\n\u003c/tbody\u003e\u003c/table\u003e\n\u003ch2 id=\"the-ssl-objects-and-their-extension\"\u003eThe SSL objects and their extension\u003c/h2\u003e\n\u003cp\u003eThe SSL objects can be encoded into different container format like \u003ccode\u003e.der\u003c/code\u003e or \u003ccode\u003e.pem\u003c/code\u003e.  See below table.\u003c/p\u003e\n\u003ctable\u003e\n\u003cthead\u003e\n\u003ctr\u003e\n\u003cth\u003eExtension\u003c/th\u003e\n\u003cth align=\"left\"\u003eDefinition\u003c/th\u003e\n\u003cth align=\"left\"\u003eContainer format\u003c/th\u003e\n\u003cth\u003eUse case\u003c/th\u003e\n\u003c/tr\u003e\n\u003c/thead\u003e\n\u003ctbody\u003e\u003ctr\u003e\n\u003ctd\u003e.csr .p10\u003c/td\u003e\n\u003ctd align=\"left\"\u003eCert signing request.  Its data format is pkcs10\u003c/td\u003e\n\u003ctd align=\"left\"\u003e.der / .pem\u003c/td\u003e\n\u003ctd\u003eContains details of the requesting cert (subject name, issuer, country etc.) as well as public key.\u003cbr\u003eIt used to get signed by a CA and in return for a public ceritifcates.\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003e.key\u003c/td\u003e\n\u003ctd align=\"left\"\u003ePrivate key of a specific certificate\u003c/td\u003e\n\u003ctd align=\"left\"\u003eUsually .pem\u003c/td\u003e\n\u003ctd\u003eIt is not a standardized format, people just conventionally renamed it as .key.\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd\u003e.cer .crt .cert\u003c/td\u003e\n\u003ctd align=\"left\"\u003eRefering to a certificate\u003c/td\u003e\n\u003ctd align=\"left\"\u003e.pem or .der\u003c/td\u003e\n\u003ctd\u003e-\u003c/td\u003e\n\u003c/tr\u003e\n\u003c/tbody\u003e\u003c/table\u003e\n\u003ch2 id=\"additional-tip-for-java-developer-what-is-a-trust-store-then\"\u003eAdditional tip for Java developer: what is a trust store then?\u003c/h2\u003e\n\u003cp\u003eWe have revealed a \u003ccode\u003ekeystore\u003c/code\u003e is a container that is used to store multiple entries of private key / public key / cerificates in password encoded format.  \u003cbr\u003e\nActually, a \u003ccode\u003etruststore\u003c/code\u003e is the same in the file format with a \u003ccode\u003etruststore\u003c/code\u003e, the difference lies in that they are used with \u003cem\u003edifferent purpose\u003c/em\u003e.\u003cbr\u003e\nWhen establishing SSL connection, Java will look for the CA certificate resides in \u003ccode\u003e-Djavax.net.ssl.trustStore=path/to/trustStore.jks\u003c/code\u003e that you are willing to trust when the remote party presents their certificate, or by default \u003ccode\u003eJAVAHOME/jre/secure/cacerts\u003c/code\u003e if the property is missing\u003cbr\u003e\nWhereas \u003ccode\u003ekeystore\u003c/code\u003e is usually storing your own private key or certificates that needs to be presented to a remote SSL party.\nIt is a best practise to seperate different SSL objects by \u003ccode\u003etruststore\u003c/code\u003e and \u003ccode\u003ekeystore\u003c/code\u003e by their purpose but actually there is no rules to forbid the mix of use of them. \u003c/p\u003e\n\u003ch2 id=\"conclusion\"\u003eConclusion\u003c/h2\u003e\n\u003cp\u003eToday we have covered some widely used container format and how do they associate with different SSL objects.  \u003c/p\u003e\n\u003ch2 id=\"todo\"\u003etodo\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003eprivate cert\u003c/li\u003e\n\u003cli\u003epublic cert\u003c/li\u003e\n\u003cli\u003eX.509\u003c/li\u003e\n\u003cli\u003ecert chain\u003c/li\u003e\n\u003cli\u003eroot cert\u003c/li\u003e\n\u003cli\u003eroot ca\u003c/li\u003e\n\u003c/ul\u003e\n","date":"2021/11/22"},"__N_SSG":true},"page":"/posts/[slug]","query":{"slug":"mess-of-ssl-certs"},"buildId":"uA_PyVTq7wK6UP7ebAX9Q","assetPrefix":"https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages","runtimeConfig":{},"nextExport":false,"isFallback":false,"gsp":true}</script><script nomodule="" src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/polyfills-99d808df29361cf7ffb1.js"></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/main-ae4733327bd95c4ac325.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/webpack-50bee04d1dc61f8adf5b.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/framework.0a9f20eff0752717cd72.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/commons.df505fa4d59f0030d15a.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/pages/_app-aa32f07bba393b6fc65d.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/2c3b9bffc7150b37a7b3810dfcf1c0b0fac2bd18.fbe88f10397d931f01ac.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/chunks/pages/posts/%5Bslug%5D-0e934f3f5bd687c8a8b4.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/uA_PyVTq7wK6UP7ebAX9Q/_buildManifest.js" async=""></script><script src="https://cdn.statically.io/gh/NosearY/noseary.github.io/gh-pages/_next/static/uA_PyVTq7wK6UP7ebAX9Q/_ssgManifest.js" async=""></script></body></html>
