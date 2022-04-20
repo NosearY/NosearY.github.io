@@ -1,74 +1,52 @@
 ---
-title:  "SSL Certs 真的很烦"
+title:  "File formats and terms used in the context of SSL"
 date: "2021/11/22"
 ---
-## 前言
-今天被分配了一个任务，需要在一个Java容器里用X.509证书调用另外一个服务器的RESTful API。期间经历了无数次证书无法验证的挫折，鼓捣了好久才终于成功。觉得还是有必要梳理一下自己的理解。
 
-## 什么是SSL Certs
+## Preface
+You may have heard many buzzwords when reading SSL cert related articles, like `.pem`, `cer`, `der`, `jks`, `pkcs12`, etc.  One could easily get confused by these terms as there are dozen of them.
+This article aims to sort out some of the frequently heard file format and terms and try to explain why and how they are used.
 
-由CA(Certificate Authority)签发的数据凭证。用于验证服务器的身份。服务器的拥有者需要妥善保存证书，并且在客户端请求的时候提供相关证书。一旦浏览器发现证书有误，如域名错误，时间不正确，过期等，会有相关的提示警告请求者。
+## SSL Objects
+When talking SSL, we are talking about a context where the information in it can be exchanged with trust.  And such safety and trust is established upon SSL certs and certificate authorities who recognize them.  <br>However we are here today not to discuss how SSL actually works because that would bring up another discussion that can span a whole day long. <br>You just need to know that in order to generate certificates used in SSL contexts, a series of SSL objects are needed.  And we need different `container format` to store these SSL objects.
 
-证书如果泄露，黑客可以利用被泄露的证书做很多坏事情。
+## The container formats and their extension
+A container in the following context refers to the file that is used to store data in a way that machine can understand it.  See below table for the most widely used container formats.
 
-有时候，SSL Certs也可以由CA签发给客户端，以让服务器验证客户端的身份。
+|  Extension  | Format  | Definition | Convertible |
+|  ----  | :----  | :---- | --- |
+| .der  | Binary | A way to encode [ASN.1](https://en.wikipedia.org/wiki/ASN.1) syntax in binary | to .pem |
+| .pem  | Plaintext | Plain text representation of `.der`.  The content of which is like below <br>-----BEGIN CERTIFICATE-----<br>...Base64 encoded contents...<br>-----END CERTIFICATE----- | to .der |
+| .pkcs12 .p12   | Binary | Password procted and fully encrypted container format that is used to store multiple entry of pub/private cert pairs in [PCKS12](https://en.wikipedia.org/wiki/PKCS_12) format | The entire file can be converte to .pem or each cert/key in it can be stripped out to convert into .pem |
+| .pfx  | Binary | Predecessor of .pkcs12 .p12 and mainly used in Windows environment like IIS | same as as above |
+| .keystore .jks |  Binary | Known as java key store, stores multiple SSL keys and certs by alias-value entry and it is password protected | same as as above |
+| .p7b | Binary | A format used by Windows for certificate/key exchange.  Its content is the same as .keystore / .jks  | same as as above | 
 
-由此可见，CA必须是一个大家都信任的实体，通常又一些大公司提供（如GoDaddy, AWS，阿里等）。
-CA也可以自己建立，由自建CA签发的证书叫做Self-Signed-Certs。一般来说遇见Self-Signed-Certs浏览器都会有警告，必须将其加入系统信任列表里方可正常使用。
+## The SSL objects and their extension
 
-## SSL Certs 的格式
-SSL Certs的格式有很多种，什么PEM, CER, DER，JKS, PCKS12，有的时候光听到这几个似曾相识的名字就让人头都大了。
+The SSL objects can be encoded into different container format like `.der` or `.pem`.  See below table.
 
-小朋友如果你有很多问题，不妨看看以下表格
-
-|  格式  | 内容  | 干嘛的 | 可保存证书？ | 可保存密钥？ | 常用于 |
-|  ----  | :----  | :---- | ---- | ---- | ---- |
-| .DER  | 二进制 | 一种转码的方法 | - | - |  |
-| .CER  | 二进制 | 指代证书 | 是 | 否 |  |
-| .CRT  | 明文或二进制皆可 | 指代证书 | 是 | 否 | |
-| .PEM  | 明文 | 一种转码方法 | 是 | 是 | Apache/Nginx |
-| .KEY  | 明文 | 其实就是PEM，只是改成.KEY易于区分密钥和证书 | - | - | |
-| .CSR  | 二进制 | 证书签名请求(Cert Signing Request) | - | - | 递交给CA以获取公钥证书(x.509) |
-| .pfx  | 二进制 | Predecessor of PKCS#12  | 必须 | 必须 | Windows IIS |
-| .p12/.pkcs12  | 二进制 | PKCS#12，一般具有密码保护 | 必须 | 必须 | Non-Windows |
-| JKS  | 二进制 | Java KeyStore，一般具有密码保护 | 可以，使用Alias存取，可以用Keypass保护 | 可以，使用Alias存取，可以用Keypass保护 | Java 程序 如 Tomcat|
+|  Extension  | Definition  | Container format | Use case |
+|  ----  | :----  | :---- | --- |
+| .csr .p10  | Cert signing request.  Its data format is pkcs10 | .der / .pem | Contains details of the requesting cert (subject name, issuer, country etc.) as well as public key.<br>It used to get signed by a CA and in return for a public ceritifcates. |
+| .key  | Private key of a specific certificate | Usually .pem | It is not a standardized format, people just conventionally renamed it as .key. |
+| .cer .crt .cert  | Refering to a certificate | .pem or .der  | - |
 
 
-### 更多关于PEM格式
-PEM是一种可以把二进制转码成明文的方法，一般来说他的样子如下
-```
------BEGIN CERTIFICATE-----
-<Base64 encoded contents>
------END CERTIFICATE-----
-```
-除了证书，他也可以转码密钥（公钥和私钥），或者是完成的证书链:同时含有证书，密钥和根证书。
+## Additional tip for Java developer: what is a trust store then?
+We have revealed a `keystore` is a container that is used to store multiple entries of private key / public key / cerificates in password encoded format.  <br>
+Actually, a `truststore` is the same in the file format with a `truststore`, the difference lies in that they are used with *different purpose*.<br>
+When establishing SSL connection, Java will look for the CA certificate resides in `-Djavax.net.ssl.trustStore=path/to/trustStore.jks` that you are willing to trust when the remote party presents their certificate, or by default `JAVAHOME/jre/secure/cacerts` if the property is missing<br>
+Whereas `keystore` is usually storing your own private key or certificates that needs to be presented to a remote SSL party.
+It is a best practise to seperate different SSL objects by `truststore` and `keystore` by their purpose but actually there is no rules to forbid the mix of use of them. 
 
-### 什么是X.509
-X.509是一种公钥证书的规范。制造的过程一般如下：
-1. 生成私钥
-2. 用私钥生成`.CSR`文件
-3. 把公钥和`.CSR`交给提供数字签名的CA。如没有CA，也可以自己建立，这样生成的Cert一般叫做Self-Signed Cert
-4. CA返还的证书+公钥一般用.p12保存，因为其支持密码。
+## Conclusion
+Today we have covered some widely used container format and how do they associate with different SSL objects.  
 
-## Java相关
-
-### 什么是KeyStore
-
-KeyStore (也就是.JKS后缀的一个文件)是用来存储私钥和X.509证书的。
-我们可以通过`javax.net.ssl.keyStore=path/to/trustStore.jks`来指定JVM寻找TrustStore的位置。
-
-<b>可以说，KeyStore一般用来存储自身的身份</b>
-
-### 什么是Trust Store
-Trust Store就是用来存贮由CA颁发的用来验证服务器有效性的证书的
-
-TrustStore是用来
-我们可以通过`-Djavax.net.ssl.trustStore=path/to/trustStore.jks`来指定JVM寻找TrustStore的位置
-
-当Java程序没有用上述指令指定TrustStore的时候，会默认寻找`JAVAHOME/jre/secure/cacerts`这个位置的文件。
-
-<b>可以说，KeyStore一般用来存储服务器的身份</b>
-
-KeyStore和TrustStore只是概念上的问题，实际上他们可以是同一个文件，但是<b>强烈</b>不建议这么做，原因是KeyStore一般用来存放私密性高的信息如个人的x509证书和私钥，而TrustStore则用来存放公共的信息如不同网站的SSL证书。
-
-未完待续。。。
+## todo
+- private cert
+- public cert
+- X.509
+- cert chain
+- root cert
+- root ca

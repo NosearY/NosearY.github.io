@@ -19,7 +19,7 @@ export default function PostLayout(props) {
           <h1 className="text-4xl">{props.title}</h1>
           <div className="flex-grow"></div>
           <p className="text-white bg-blue-500 text-xs rounded-full py-2 px-4">
-            {props.date}
+            Posted on {props.date}
           </p>
         </div>
       </div>

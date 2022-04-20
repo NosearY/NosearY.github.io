@@ -19,14 +19,16 @@ export async function getAllPosts(): Promise<AllPost[]> {
   const context = require.context("../_posts", false, /\.md$/);
   const posts: AllPost[] = [];
   for (const key of context.keys()) {
-    const post = key.slice(2);
-    const content = await import(`../_posts/${post}`);
-    const meta = matter(content.default);
-    posts.push({
-      slug: post.replace(".md", ""),
-      title: meta.data.title,
-      date: meta.data.date,
-    });
+    const postFileName = key.slice(2);
+    if (!postFileName.startsWith('_')) {
+      const content = await import(`../_posts/${postFileName}`);
+      const meta = matter(content.default);
+      posts.push({
+        slug: postFileName.replace(".md", ""),
+        title: meta.data.title,
+        date: meta.data.date,
+      });
+    }
   }
   return posts;
 }
