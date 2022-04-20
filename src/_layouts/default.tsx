@@ -10,7 +10,7 @@ export default function DefaultLayout(props) {
         <meta name="description" content={props.description} />
       </Head>
       <Header isHome={props.isHome} />
-      <div>{props.children}</div>
+      <div className="p-20">{props.children}</div>
       <Footer />
     </main>
   );
